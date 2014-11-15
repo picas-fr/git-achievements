@@ -84,7 +84,3 @@ body {
         border-bottom: 0;
     }
 }
-#locked {
-    display: none;
-    visibility: hidden;
-}

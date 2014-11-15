@@ -64,7 +64,10 @@ declare -x ACHIEVEMENTSSTPL_INDEX=$(cat <<HTMLTPL
         <pre style="text-align: left">
 %COMMANDS%
         </pre>
-        <p><a id="showlocked" href="javascript:showLocked()">Show locked Achievements</a></p>
+        <p>
+            <a id="showlocked" href="javascript:showLocked()">Show locked Achievements</a>
+            <a id="hidelocked" href="javascript:hideLocked()">Hide locked Achievements</a>
+        </p>
         <div id="locked">
             There are %TOTAL% Achievements. Some achievements can be leveled up depending on the number of times it is used (Used 2 times = level 1, 4 = level 2, 8 = level 3, 16 = level 4, 32 = level 5, etc)
             <ul class="list-group">
@@ -85,11 +88,31 @@ declare -x ACHIEVEMENTSSTPL_INDEX=$(cat <<HTMLTPL
 
 </div>
 <script type="text/javascript">
-function showLocked() {
-    document.getElementById('locked').style.visibility = 'visible';
-    document.getElementById('locked').style.display = 'block';
-    document.getElementById('showlocked').style.visibility = 'hidden';
+function showBlock(id) {
+    var block = document.getElementById(id);
+    if (block) {
+        block.style.visibility = 'visible';
+        block.style.display = 'block';
+    }
 }
+function hideBlock(id) {
+    var block = document.getElementById(id);
+    if (block) {
+        block.style.visibility = 'hidden';
+        block.style.display = 'none';
+    }
+}
+function showLocked() {
+    showBlock('locked');
+    showBlock('hidelocked');
+    hideBlock('showlocked');
+}
+function hideLocked() {
+    hideBlock('locked');
+    hideBlock('hidelocked');
+    showBlock('showlocked');
+}
+hideLocked();
 </script>
 </body></html>
 HTMLTPL
