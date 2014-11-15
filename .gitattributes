@@ -1,3 +1,4 @@
 index.html merge=ours
 index.rss merge=ours
+style.css merge=ours
 publish-templates merge=ours
