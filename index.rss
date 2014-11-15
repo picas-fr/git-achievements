@@ -2,8 +2,10 @@
 <rss version="2.0">
 <channel>
 <title>piwi - Git Achievements</title>
-<description>Unlocked 10/51 Git Achievements for 20 points</description>
+<description>Unlocked 10/51 Git Achievements for 27 points</description>
 <link>https://github.com/piwi</link>
+<item><title>Apprentice Socialite (Level 2)</title><description>pushed a branch to a remote repository using git push</description></item>
+<item><title>Apprentice Author (Level 3)</title><description>Made 2^Level commits using git commit.</description></item>
 <item><title>Cherry Picker</title><description>Used git cherry-pick to add a sha from another branch into the current branch.</description></item>
 <item><title>Apprentice Historian (Level 2)</title><description>Investigate the commit log using git log.</description></item>
 <item><title>Apprentice Socialite (Level 1)</title><description>pushed a branch to a remote repository using git push</description></item>
