@@ -7,14 +7,14 @@
 ############################ template for each locked list item
 # used like: sprintf $template $title $content
 declare -x ACHIEVEMENTSSTPL_LOCKED_ITEM=$(cat <<HTMLTPL
-<li><div class="title">%s</div><div class="info">%s</div></li>
+<li class="list-group-item"><div class="title">%s</div><div class="info">%s</div></li>
 HTMLTPL
 )
 
 ############################ template for each unlocked list item
 # used like: sprintf $template $title $content
 declare -x ACHIEVEMENTSSTPL_UNLOCKED_ITEM=$(cat <<HTMLTPL
-<li><div class="title">%s</div> <div class="info">%s</div></li>
+<div class="panel panel-default"><div class="panel-heading">%s</div><div class="panel-body">%s</div></div>
 HTMLTPL
 )
 
@@ -30,37 +30,67 @@ HTMLTPL
 # %UNLOCKED%    = unlocked items list
 # %LOCKED%      = locked items list
 declare -x ACHIEVEMENTSSTPL_INDEX=$(cat <<HTMLTPL
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<title>%USER%'s Git Achievements</title>
-<link rel="alternate" type="application/rss+xml" title="rss feed" href="index.rss"/>
-<link rel="stylesheet" type="text/css" href="style.css"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet">
+    <title>%USER%'s Git Achievements</title>
+    <link rel="alternate" type="application/rss+xml" title="rss feed" href="index.rss"/>
 </head>
 <body>
+<div class="container">
 
-<h2>%USER%'s Git Achievements <img src='http://www.gravatar.com/avatar/%MAILHASH%'/></h2>
-Unlocked %COUNT%/%TOTAL% <a href="http://github.com/icefox/git-achievements">Git Achievements</a> for %POINTS% points<br>
-<ul>
-%UNLOCKED%
-</ul>
-Git commands sorted by usage:
-<pre style="text-align: left">
+    <div class="jumbotron">
+
+        <div class="pull-left">
+            <div class="header">
+                <h3 class="text-muted">%USER%'s Git Achievements</h3>
+            </div>
+            <p class="lead">Unlocked %COUNT%/%TOTAL% <a href="http://github.com/icefox/git-achievements">Git Achievements</a> for %POINTS% points</p>
+        </div>
+
+        <div class="pull-right">
+            <img src='http://www.gravatar.com/avatar/%MAILHASH%' alt='_'/>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="marketing">
+        %UNLOCKED%
+        <p>Git commands sorted by usage:</p>
+        <pre style="text-align: left">
 %COMMANDS%
-</pre>
+        </pre>
+        <p><a id="showlocked" href="javascript:showLocked()">Show locked Achievements</a></p>
+        <div id="locked">
+            There are %TOTAL% Achievements. Some achievements can be leveled up depending on the number of times it is used (Used 2 times = level 1, 4 = level 2, 8 = level 3, 16 = level 4, 32 = level 5, etc)
+            <ul class="list-group">
+                %LOCKED%
+            </ul>
+        </div>
+
+        <footer class="footer small">
+            <ul>
+                <li>generated at %DATE%</li>
+                <li>original sources at <a href="https://github.com/%USER%/git-achievements">https://github.com/%USER%/git-achievements</a></li>
+                <li>fired by <a href="https://github.com/icefox/git-achievements">icefox</a></li>
+                <li>styles by <a href="http://bootswatch.com/slate/">Bootswatch</a> with <a href="http://getbootstrap.com">Bootstrap</a></li>
+            </ul>
+        </footer>
+
+    </div>
+
+</div>
 <script type="text/javascript">
 function showLocked() {
     document.getElementById('locked').style.visibility = 'visible';
+    document.getElementById('locked').style.display = 'block';
     document.getElementById('showlocked').style.visibility = 'hidden';
 }
 </script>
-<a id="showlocked" href="javascript:showLocked()" >Show locked Achievements</a>
-<div id="locked">
-There are %TOTAL% Achievements. Some achievements can be leveled up depending on the number of times it is used (Used 2 times = level 1, 4 = level 2, 8 = level 3, 16 = level 4, 32 = level 5, etc)
-<ul>
-%LOCKED%
-</ul></div>
 </body></html>
 HTMLTPL
 )
@@ -79,8 +109,8 @@ declare -x ACHIEVEMENTSSTPL_RSS=$(cat <<HTMLTPL
 <rss version="2.0">
 <channel>
 <title>%USER% - Git Achievements</title>
-<description></description>
-<link></link>
+<description>Unlocked %COUNT%/%TOTAL% Git Achievements for %POINTS% points</description>
+<link>https://github.com/%USER%</link>
 %UNLOCKED%
 </channel>
 </rss>
