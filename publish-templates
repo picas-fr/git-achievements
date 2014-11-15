@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+#
+# This file defines the global templates used to generate the 'index.html' and 'index.rss'
+# when using `git achievements --publish`
+#
+
+############################ template for each locked list item
+# used like: sprintf $template $title $content
+declare -x ACHIEVEMENTSSTPL_LOCKED_ITEM=$(cat <<HTMLTPL
+<li><div class="title">%s</div><div class="info">%s</div></li>
+HTMLTPL
+)
+
+############################ template for each unlocked list item
+# used like: sprintf $template $title $content
+declare -x ACHIEVEMENTSSTPL_UNLOCKED_ITEM=$(cat <<HTMLTPL
+<li><div class="title">%s</div> <div class="info">%s</div></li>
+HTMLTPL
+)
+
+############################ global HTML template for the 'index.html' file
+# parsing vars:
+# %USER%        = ${user}
+# %MAILHASH%    = ${mailhash}
+# %COUNT%       = ${unlockedCount}
+# %TOTAL%       = ${total}
+# %POINTS%      = ${points}
+# %DATE%        = current date
+# %COMMANDS%    = git commands list (raw text)
+# %UNLOCKED%    = unlocked items list
+# %LOCKED%      = locked items list
+declare -x ACHIEVEMENTSSTPL_INDEX=$(cat <<HTMLTPL
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>%USER%'s Git Achievements</title>
+<link rel="alternate" type="application/rss+xml" title="rss feed" href="index.rss"/>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+
+<h2>%USER%'s Git Achievements <img src='http://www.gravatar.com/avatar/%MAILHASH%'/></h2>
+Unlocked %COUNT%/%TOTAL% <a href="http://github.com/icefox/git-achievements">Git Achievements</a> for %POINTS% points<br>
+<ul>
+%UNLOCKED%
+</ul>
+Git commands sorted by usage:
+<pre style="text-align: left">
+%COMMANDS%
+</pre>
+<script type="text/javascript">
+function showLocked() {
+    document.getElementById('locked').style.visibility = 'visible';
+    document.getElementById('showlocked').style.visibility = 'hidden';
+}
+</script>
+<a id="showlocked" href="javascript:showLocked()" >Show locked Achievements</a>
+<div id="locked">
+There are %TOTAL% Achievements. Some achievements can be leveled up depending on the number of times it is used (Used 2 times = level 1, 4 = level 2, 8 = level 3, 16 = level 4, 32 = level 5, etc)
+<ul>
+%LOCKED%
+</ul></div>
+</body></html>
+HTMLTPL
+)
+
+############################ global RSS template for the 'index.rss' file
+# parsing vars:
+# %USER%        = ${user}
+# %MAILHASH%    = ${mailhash}
+# %COUNT%       = ${unlockedCount}
+# %TOTAL%       = ${total}
+# %POINTS%      = ${points}
+# %DATE%        = current date
+# %UNLOCKED%    = unlocked items list
+declare -x ACHIEVEMENTSSTPL_RSS=$(cat <<HTMLTPL
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>%USER% - Git Achievements</title>
+<description></description>
+<link></link>
+%UNLOCKED%
+</channel>
+</rss>
+HTMLTPL
+)

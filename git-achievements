@@ -383,81 +383,86 @@ function publish_achievements
     fi
 
     cd "${git_achievements_dir}"
+    source publish-templates
 
+    # USER
     user=`git config --global user.name`
-
-echo "
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>
-<title>${user}'s Git Achievements</title>
-<link rel=\"alternate\" type=\"application/rss+xml\" title=\"rss feed\" href=\"index.rss\"/>
-<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>
-</head>
-<body>
-" > index.html
     mailhash=`git config --global user.email | xargs echo -n | tr '[A-Z]' '[a-z]' | openssl md5 | sed -e 's/.* //'`
-    echo "<h2>${user}'s Git Achievements <img src='http://www.gravatar.com/avatar/${mailhash}'/></h2>" >> index.html
 
     # STATS
-    cat git-achievements | grep 'unlock_achievement ' | grep -v ' sed ' | grep -v '\${' | sed -e 's/.*unlock_achievement //g' -e 's/^"//g' -e 's/"$//g' -e 's/\$power/X/g' -e 's/\$count/X/g' -e 's/\$hooks/X/g' | sort | awk -F"\" \"" '{ print "<li><div class=\"title\">" $1 "</div><div class=\"info\">" $2 "</div></li>" }' | link_to_git_docs > all.html
+    cat git-achievements | grep 'unlock_achievement ' | grep -v ' sed ' | grep -v '\${' | \
+        sed -e 's/.*unlock_achievement //g' -e 's/^"//g' -e 's/"$//g' -e 's/\$power/X/g' -e 's/\$count/X/g' -e 's/\$hooks/X/g' | \
+        sort | awk -v ctt="${ACHIEVEMENTSSTPL_LOCKED_ITEM}\n" -F"\" \"" '{ printf ctt , $1 , $2 }' | \
+        link_to_git_docs > all.html ;
     total=`cat all.html | wc -l`
 
     unlockedCount=`clean_logged_achievements | awk '{ if (NR % 2 != 0) print $0 }' | sed -e 's/Apprentice //g' -e 's/Master //g' -e 's/(.*//g' | sort | uniq | wc -l`
     levels=`clean_logged_achievements | awk '{ if (NR % 2 != 0) print $0 }' | grep Level | sed -e 's/.* //g' -e 's/)//g' | awk '{ t=t+$0 } END { print t }'`
     onelevels=`clean_logged_achievements | awk '{ if (NR % 2 != 0) print $0 }' | wc -l`
     let points="${levels}"+"${onelevels}"
-    echo "Unlocked ${unlockedCount}/$total <a href=\"http://github.com/icefox/git-achievements\">Git Achievements</a> for $points points<br>" >> index.html
-
     unlocked=`cat "${ACHIEVEMENTSLOGFILE}" | grep Unlocked | wc -l`
 
     # Unlocked Achievements
-    echo "<ul>" >> index.html
-    cat "${ACHIEVEMENTSLOGFILE}" | grep -ve '^$' | grep -v 'Git Achievement Unlocked!' | grep -v '*' | sed -e 's/^ *//g'  -e 's/ *$//g' | awk '{ if (NR % 2 != 0) printf "<li><div class=\"title\">" $0 "</div>"; else printf "  <div class=\"info\">" $0 "</div></li>\n" }' | link_to_git_docs | sort >> index.html
-
-    echo "</ul>" >> index.html
+    unlocked_contents=$(cat "${ACHIEVEMENTSLOGFILE}" | \
+        grep -ve '^$' | \
+        grep -v 'Git Achievement Unlocked!' | \
+        grep -v '*' | \
+        sed -e 's/^ *//g'  -e 's/ *$//g' | \
+        awk -v ctt="${ACHIEVEMENTSSTPL_UNLOCKED_ITEM}\n" 'BEGIN{title=""} {
+            if (NR % 2 != 0) title=$0;
+            else printf ctt , title , $0
+        }' | link_to_git_docs | sort);
 
     # Git Commands
-    echo 'Git commands sorted by usage:' >> index.html
-    echo "<pre style=\"text-align: left\">" >> index.html
-    cat  "${ACTIONLOGFILE}" | grep -v Date | grep -v 'git-dir' | awk '{ print $1 }' | sort | uniq -c | sort -nr >> index.html
-    echo "</pre>" >> index.html
+    commands=$(cat "${ACTIONLOGFILE}" | grep -v Date | grep -v 'git-dir' | awk '{ print $1 }' | sort | uniq -c | sort -nr);
 
     # Locked Achievements
-    echo "<script type=\"text/javascript\">
-function showLocked() {
-    document.getElementById('locked').style.visibility = 'visible';
-    document.getElementById('showlocked').style.visibility = 'hidden';
-}
-</script>
-<a id=\"showlocked\" href=\"javascript:showLocked()\" >Show locked Achievements</a>
-<div id=\"locked\">
-There are $total Achievements. Some achievements can be leveled up depending on the number of times it is used (Used 2 times = level 1, 4 = level 2, 8 = level 3, 16 = level 4, 32 = level 5, etc)
-<ul>" >> index.html
-
-    cat index.html | sed -e 's/Apprentice //g' -e 's/Master //g'> temp.html
-    cat all.html | while read line ;
+    locked_contents=''
+    echo "${unlocked_contents}" | sed -e 's/Apprentice //g' -e 's/Master //g' > temp.html
+    while read line ;
     do
-        stripedline=`echo $line | sed -e 's/<\/div>.*//g' -e 's/(.*//g' -e 's/Apprentice //g'`
+        stripedline=$(echo $line | sed -e 's/<\/div>.*//g' -e 's/(.*//g' -e 's/Apprentice //g')
         grep "$stripedline" temp.html > /dev/null
         if [ ! $? -eq 0 ] ; then
-            echo $line >> index.html
+            locked_contents+="${line}\n"
         fi
-    done
-    echo '</ul></div>' >> index.html
-    rm temp.html
-    rm all.html
+    done < all.html
 
-    echo "</body></html>" >> index.html
+    # Update the HTML file
+    _date=$(date)
+    commands="${commands//$'\n'/%NL%}";
+    unlocked_contents="${unlocked_contents//$'\n'/%NL%}";
+    locked_contents="${locked_contents//$'\n'/%NL%}";
+    echo "${ACHIEVEMENTSSTPL_INDEX}" | sed \
+        -e "s@%USER%@${user}@ig" \
+        -e "s@%MAILHASH%@${mailhash}@ig" \
+        -e "s@%COUNT%@${unlockedCount}@ig" \
+        -e "s@%TOTAL%@${total}@ig" \
+        -e "s@%POINTS%@${points}@ig" \
+        -e "s@%DATE%@${_date}@ig" \
+        -e "s@%COMMANDS%@${commands}@ig" \
+        -e "s@%UNLOCKED%@${unlocked_contents}@ig" \
+        -e "s@%LOCKED%@${locked_contents}@ig" \
+        -e "s/%NL%/\n/g" \
+            > index.html ;
 
     # Update the RSS feed
-    echo '<?xml version="1.0" encoding="utf-8"?><rss version="2.0"><channel>' > index.rss
-    echo "<title>${user}'s Git Achievements</title>" >> index.rss
-    echo "<description></description>" >> index.rss
-    echo "<link></link>" >> index.rss
-    cat "${ACHIEVEMENTSLOGFILE}"  | grep -ve '^$' | grep -v 'Git Achievement Unlocked!' | grep -v '*' | sed -e 's/^ *//g'  -e 's/ *$//g' | awk '{ if (NR % 2 != 0) printf "<item><title>" $0 "</title>"; else printf "<description>" $0 "</description></item>\n" }' | tail -n 20 | sed '1!G;h;$!d' >> index.rss
-    echo '</channel></rss>' >> index.rss
+    unlocked_contents_rss=$(cat "${ACHIEVEMENTSLOGFILE}"  | grep -ve '^$' | grep -v 'Git Achievement Unlocked!' | grep -v '*' | sed -e 's/^ *//g'  -e 's/ *$//g' | awk '{ if (NR % 2 != 0) printf "<item><title>" $0 "</title>"; else printf "<description>" $0 "</description></item>\n" }' | tail -n 20 | sed '1!G;h;$!d');
+    unlocked_contents_rss="${unlocked_contents_rss//$'\n'/%NL%}";
+    echo "${ACHIEVEMENTSSTPL_RSS}" | sed \
+        -e "s@%USER%@${user}@ig" \
+        -e "s@%MAILHASH%@${mailhash}@ig" \
+        -e "s@%COUNT%@${unlockedCount}@ig" \
+        -e "s@%TOTAL%@${total}@ig" \
+        -e "s@%POINTS%@${points}@ig" \
+        -e "s@%DATE%@${_date}@ig" \
+        -e "s@%UNLOCKED%@${unlocked_contents_rss}@ig" \
+        -e "s/%NL%/\n/g" \
+            > index.rss ;
+
+    # remove temp files
+    rm temp.html
+    rm all.html
 
     abortcount=`git status | grep 'Changes to be committed' | wc -l`
     if [ ! $abortcount -eq 0 ] ; then
