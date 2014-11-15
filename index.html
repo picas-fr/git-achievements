@@ -41,13 +41,13 @@
 <div class="panel panel-default"><div class="panel-heading">Student</div><div class="panel-body">Accessed the documentation for a command with <a href="http://www.kernel.org/pub/software/scm/git/docs/git-.html">git-</a>[command] --help</div></div>
         <p>Git commands sorted by usage:</p>
         <pre style="text-align: left">
-    566 rev-parse
-    266 symbolic-ref
-    266 ls-files
-    255 diff-index
-    151 achievements
-    119 rev-list
-     27 diff
+    569 rev-parse
+    267 symbolic-ref
+    267 ls-files
+    256 diff-index
+    152 achievements
+    120 rev-list
+     28 diff
      15 status
       7 add
       6 -d
@@ -68,7 +68,10 @@
       1 --publish
       1 --help
         </pre>
-        <p><a id="showlocked" href="javascript:showLocked()">Show locked Achievements</a></p>
+        <p>
+            <a id="showlocked" href="javascript:showLocked()">Show locked Achievements</a>
+            <a id="hidelocked" href="javascript:hideLocked()">Hide locked Achievements</a>
+        </p>
         <div id="locked">
             There are 51 Achievements. Some achievements can be leveled up depending on the number of times it is used (Used 2 times = level 1, 4 = level 2, 8 = level 3, 16 = level 4, 32 = level 5, etc)
             <ul class="list-group">
@@ -129,7 +132,7 @@
 
         <footer class="footer small">
             <ul>
-                <li>generated at Sam nov 15 14:43:25 CET 2014</li>
+                <li>generated at Sam nov 15 22:32:28 CET 2014</li>
                 <li>original sources at <a href="https://github.com/piwi/git-achievements">https://github.com/piwi/git-achievements</a></li>
                 <li>fired by <a href="https://github.com/icefox/git-achievements">icefox</a></li>
                 <li>styles by <a href="http://bootswatch.com/slate/">Bootswatch</a> with <a href="http://getbootstrap.com">Bootstrap</a></li>
@@ -140,10 +143,30 @@
 
 </div>
 <script type="text/javascript">
-function showLocked() {
-    document.getElementById('locked').style.visibility = 'visible';
-    document.getElementById('locked').style.display = 'block';
-    document.getElementById('showlocked').style.visibility = 'hidden';
+function showBlock(id) {
+    var block = document.getElementById(id);
+    if (block) {
+        block.style.visibility = 'visible';
+        block.style.display = 'block';
+    }
 }
+function hideBlock(id) {
+    var block = document.getElementById(id);
+    if (block) {
+        block.style.visibility = 'hidden';
+        block.style.display = 'none';
+    }
+}
+function showLocked() {
+    showBlock('locked');
+    showBlock('hidelocked');
+    hideBlock('showlocked');
+}
+function hideLocked() {
+    hideBlock('locked');
+    hideBlock('hidelocked');
+    showBlock('showlocked');
+}
+hideLocked();
 </script>
 </body></html>
