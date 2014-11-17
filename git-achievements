@@ -386,8 +386,8 @@ function publish_achievements
     source publish-templates
 
     # USER
-    user=`git config --global user.name`
-    mailhash=`git config --global user.email | xargs echo -n | tr '[A-Z]' '[a-z]' | openssl md5 | sed -e 's/.* //'`
+    user=`git config --local user.name`
+    mailhash=`git config --local user.email | xargs echo -n | tr '[A-Z]' '[a-z]' | openssl md5 | sed -e 's/.* //'`
 
     # STATS
     cat git-achievements | grep 'unlock_achievement ' | grep -v ' sed ' | grep -v '\${' | \
