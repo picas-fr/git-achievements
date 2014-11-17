@@ -421,7 +421,7 @@ function publish_achievements
     echo "${unlocked_contents}" | sed -e 's/Apprentice //g' -e 's/Master //g' > temp.html
     while read line ;
     do
-        stripedline=$(echo $line | sed -e 's/<\/div>.*//g' -e 's/(.*//g' -e 's/Apprentice //g')
+        stripedline=$(echo $line | sed -e 's/<\/div>.*//g' -e 's/(.*//g' -e 's/Apprentice //g' -e 's/<[^>]*>//g')
         grep "$stripedline" temp.html > /dev/null
         if [ ! $? -eq 0 ] ; then
             locked_contents+="${line}\n"
