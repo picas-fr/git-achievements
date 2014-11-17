@@ -2,8 +2,9 @@
 <rss version="2.0">
 <channel>
 <title>Piero Wbmstr - Git Achievements</title>
-<description>Unlocked 1/51 Git Achievements for 1 points</description>
+<description>Unlocked 2/51 Git Achievements for 2 points</description>
 <link>https://github.com/Piero Wbmstr</link>
+<item><title>Baptised</title><description>Set global user name using git config.</description></item>
 <item><title>Student</title><description>Accessed the documentation for a command with git [command] --help</description></item>
 </channel>
 </rss>
