@@ -2,8 +2,9 @@
 <rss version="2.0">
 <channel>
 <title>picas-fr - Git Achievements</title>
-<description>Unlocked 15/51 Git Achievements for 71 points</description>
+<description>Unlocked 15/51 Git Achievements for 74 points</description>
 <link>https://github.com/picas-fr</link>
+<item><title>Apprentice Blacksmith (Level 2)</title><description>Created a branch using git checkout -b.</description></item>
 <item><title>Apprentice Blacksmith (Level 1)</title><description>Created a branch using git checkout -b.</description></item>
 <item><title>Caretaker</title><description>Added a .gitignore file to a repository.</description></item>
 <item><title>Apprentice Cathedral Worker (Level 1)</title><description>Cloned submodule repository and checked out commits specified by superproject.</description></item>
@@ -23,6 +24,5 @@
 <item><title>Apprentice Socialite (Level 3)</title><description>pushed a branch to a remote repository using git push</description></item>
 <item><title>Apprentice Stone Mason (Level 2)</title><description>Added files to the index area for inclusion in the next commit with git add</description></item>
 <item><title>Apprentice Author (Level 2)</title><description>Made 2^Level commits using git commit.</description></item>
-<item><title>Apprentice Gipsy (Level 1)</title><description>Create, list, delete a tag signed with GPG using git tag</description></item>
 </channel>
 </rss>
