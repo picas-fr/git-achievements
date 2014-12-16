@@ -2,8 +2,9 @@
 <rss version="2.0">
 <channel>
 <title>picas-fr - Git Achievements</title>
-<description>Unlocked 17/51 Git Achievements for 149 points</description>
+<description>Unlocked 17/51 Git Achievements for 156 points</description>
 <link>https://github.com/picas-fr</link>
+<item><title>Author (Level 6)</title><description>Made 2^Level commits using git commit.</description></item>
 <item><title>Apprentice Presenter (Level 3)</title><description>Shows one or more objects (blobs, trees, tags and commits) with git show</description></item>
 <item><title>Collector (Level 4)</title><description>Fetches named heads or tags from another repository with git fetch</description></item>
 <item><title>Historian (Level 5)</title><description>Investigate the commit log using git log.</description></item>
@@ -23,6 +24,5 @@
 <item><title>Apprentice Blacksmith (Level 2)</title><description>Created a branch using git checkout -b.</description></item>
 <item><title>Apprentice Blacksmith (Level 1)</title><description>Created a branch using git checkout -b.</description></item>
 <item><title>Caretaker</title><description>Added a .gitignore file to a repository.</description></item>
-<item><title>Apprentice Cathedral Worker (Level 1)</title><description>Cloned submodule repository and checked out commits specified by superproject.</description></item>
 </channel>
 </rss>
