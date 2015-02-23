@@ -2,8 +2,9 @@
 <rss version="2.0">
 <channel>
 <title>picas-fr - Git Achievements</title>
-<description>Unlocked 21/51 Git Achievements for 284 points</description>
+<description>Unlocked 22/51 Git Achievements for 286 points</description>
 <link>https://github.com/picas-fr</link>
+<item><title>Apprentice Thug (Level 1)</title><description>Forced pushed a branch with git push -f</description></item>
 <item><title>Master Author (Level 8)</title><description>Made 2^Level commits using git commit.</description></item>
 <item><title>Apprentice Merchant (Level 3)</title><description>Added an external repository with git remote add.</description></item>
 <item><title>Master Historian (Level 7)</title><description>Investigate the commit log using git log.</description></item>
@@ -23,6 +24,5 @@
 <item><title>Apprentice Miller (Level 1)</title><description>Add only part of a file to the stage 209 times with git add -p.</description></item>
 <item><title>Apprentice Seamstress (Level 2)</title><description>amended a commit with git commit --amend.</description></item>
 <item><title>Collector (Level 5)</title><description>Fetches named heads or tags from another repository with git fetch</description></item>
-<item><title>Carpenter (Level 5)</title><description>Custom git hooks are installed which help catch issues before they are shared.</description></item>
 </channel>
 </rss>
