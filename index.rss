@@ -2,8 +2,9 @@
 <rss version="2.0">
 <channel>
 <title>picas-fr - Git Achievements</title>
-<description>Unlocked 22/51 Git Achievements for 289 points</description>
+<description>Unlocked 22/51 Git Achievements for 295 points</description>
 <link>https://github.com/picas-fr</link>
+<item><title>Presenter (Level 5)</title><description>Shows one or more objects (blobs, trees, tags and commits) with git show</description></item>
 <item><title>Apprentice Thug (Level 2)</title><description>Forced pushed a branch with git push -f</description></item>
 <item><title>Apprentice Thug (Level 1)</title><description>Forced pushed a branch with git push -f</description></item>
 <item><title>Master Author (Level 8)</title><description>Made 2^Level commits using git commit.</description></item>
@@ -23,6 +24,5 @@
 <item><title>Apprentice Miller (Level 2)</title><description>Add only part of a file to the stage 220 times with git add -p.</description></item>
 <item><title>Apprentice Goldsmith (Level 2)</title><description>Reviewed patches before committing with git diff --cached.</description></item>
 <item><title>Apprentice Miller (Level 1)</title><description>Add only part of a file to the stage 209 times with git add -p.</description></item>
-<item><title>Apprentice Seamstress (Level 2)</title><description>amended a commit with git commit --amend.</description></item>
 </channel>
 </rss>
