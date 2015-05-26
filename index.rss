@@ -2,8 +2,9 @@
 <rss version="2.0">
 <channel>
 <title>picas-fr - Git Achievements</title>
-<description>Unlocked 25/51 Git Achievements for 389 points</description>
+<description>Unlocked 26/51 Git Achievements for 390 points</description>
 <link>https://github.com/picas-fr</link>
+<item><title>Let there be light</title><description>Commit without a parent.</description></item>
 <item><title>Master Blacksmith (Level 7)</title><description>Created a branch using git checkout -b.</description></item>
 <item><title>Cleaning lady (Level 5)</title><description>Remove untracked files from the working tree with git clean</description></item>
 <item><title>Cathedral Worker (Level 4)</title><description>Cloned submodule repository and checked out commits specified by superproject.</description></item>
@@ -23,6 +24,5 @@
 <item><title>Apprentice Thug (Level 2)</title><description>Forced pushed a branch with git push -f</description></item>
 <item><title>Apprentice Thug (Level 1)</title><description>Forced pushed a branch with git push -f</description></item>
 <item><title>Master Author (Level 8)</title><description>Made 2^Level commits using git commit.</description></item>
-<item><title>Apprentice Merchant (Level 3)</title><description>Added an external repository with git remote add.</description></item>
 </channel>
 </rss>
