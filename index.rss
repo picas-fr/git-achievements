@@ -2,8 +2,9 @@
 <rss version="2.0">
 <channel>
 <title>picas-fr - Git Achievements</title>
-<description>Unlocked 27/51 Git Achievements for 451 points</description>
+<description>Unlocked 27/51 Git Achievements for 457 points</description>
 <link>https://github.com/picas-fr</link>
+<item><title>Merchant (Level 5)</title><description>Added an external repository with git remote add.</description></item>
 <item><title>Master Socialite (Level 10)</title><description>pushed a branch to a remote repository using git push</description></item>
 <item><title>Master Historian (Level 9)</title><description>Investigate the commit log using git log.</description></item>
 <item><title>Master Banker (Level 8)</title><description>Join two or more development histories together with git merge.</description></item>
@@ -23,6 +24,5 @@
 <item><title>Presenter (Level 6)</title><description>Shows one or more objects (blobs, trees, tags and commits) with git show</description></item>
 <item><title>Apprentice Thug (Level 3)</title><description>Forced pushed a branch with git push -f</description></item>
 <item><title>Blacksmith (Level 6)</title><description>Created a branch using git checkout -b.</description></item>
-<item><title>Master Banker (Level 7)</title><description>Join two or more development histories together with git merge.</description></item>
 </channel>
 </rss>
